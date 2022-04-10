@@ -5,21 +5,20 @@ import kotlinx.coroutines.coroutineScope
 import java.math.BigInteger
 import java.security.MessageDigest
 
-fun View.turnVisible(){
+fun View.turnVisible() {
     this.visibility = View.VISIBLE
 }
-fun View.turnInVisible(){
+
+fun View.turnInVisible() {
     this.visibility = View.INVISIBLE
 }
-
-
 
 fun md5(input: String): String {
     val md = MessageDigest.getInstance("MD5")
     return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
 }
 
-fun solver(hashcode:String): String {
+fun solver(hashcode: String): String {
 
     val myEmail = "cetinnoguzhan@gmail.com"
     val hasList = hashcode.chunked(32)
@@ -34,7 +33,7 @@ fun solver(hashcode:String): String {
         charSet.forEach { i ->
             charSet.forEach { j ->
                 val y = i.toString() + j.toString()
-                val hashed = md5(md5(myEmail) + xSum+y + md5(xSum+y))
+                val hashed = md5(md5(myEmail) + xSum + y + md5(xSum + y))
                 if (hashed == element) {
                     xSum += y
                     println(xSum)
@@ -43,5 +42,5 @@ fun solver(hashcode:String): String {
             }
         }
     }
-   return xSum
+    return xSum
 }

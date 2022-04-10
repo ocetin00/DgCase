@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
         progressCircle = findViewById(R.id.progressBarCircle)
 
 
-        val job = Job()
-        val uiScope = CoroutineScope(Dispatchers.Main + job)
+
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -37,13 +36,11 @@ class MainActivity : AppCompatActivity() {
                     when (it) {
                         is MessageResponse.Loading -> progressCircle.turnVisible()
                         is MessageResponse.Success -> {
-                            uiScope.launch(Dispatchers.IO) {
-                                val mail = solver((it.data as HashResponse).hash)
-                                withContext(Dispatchers.Main){
-                                    progressCircle.turnInVisible()
-                                    textView.text = mail
-                                }
 
+                            val mail = solver((it.data as HashResponse).hash)
+                            withContext(Dispatchers.Main) {
+                                progressCircle.turnInVisible()
+                                textView.text = mail
                             }
 
                         }
